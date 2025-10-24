@@ -3,4 +3,7 @@ name: redis-cloud
 description: Redis (cloud) for caching/queueing
 type: application
 version: 0.1.0
-dependencies: []
+dependencies:
+- name: redis
+  version: 18.x.x
+  repository: https://charts.bitnami.com/bitnami

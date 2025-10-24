@@ -3,4 +3,7 @@ name: seldon-operator
 description: Seldon Core Operator (optional)
 type: application
 version: 0.1.0
-dependencies: []
+dependencies:
+- name: seldon-core-operator
+  version: 1.16.*
+  repository: https://storage.googleapis.com/seldon-charts

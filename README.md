@@ -74,58 +74,21 @@ kubectl create ns mlops-edge
 kubectl create ns mlops-cloud
 kubectl create ns seldon-system   # optional
 ```
+### 3) Desplegar con Rancher
 
-3) Desplegar con Rancher
+**Instala los charts individualmente:**
 
-Instala los charts individualmente:
+| Ruta del chart            | Namespace     | Notas               |
+|---------------------------|---------------|---------------------|
+| `charts/monitoring`       | `monitoring`  | Prometheus + Grafana |
+| `charts/redis-edge`       | `mlops-edge`  | Redis Edge          |
+| `charts/redis-cloud`      | `mlops-cloud` | Redis Cloud         |
+| `charts/fastapi-edge`     | `mlops-edge`  | Serving del modelo  |
+| `charts/k6-loadtest`      | `monitoring`  | Carga               |
+| *(opcional)* `charts/seldon-operator` | `seldon-system` | Operador            |
 
-Ruta del chart	Namespace	Notas
-charts/monitoring	monitoring	Prometheus + Grafana
-charts/redis-edge	mlops-edge	Redis Edge
-charts/redis-cloud	mlops-cloud	Redis Cloud
-charts/fastapi-edge	mlops-edge	Serving del modelo
-charts/k6-loadtest	monitoring	Carga
-(opcional) charts/seldon-operator	seldon-system	Operador
-
-Como umbrella (si lo usas):
-
+**Como umbrella (si lo usas):**
+```bash
 helm install mlopsra ./ --namespace=mlops --create-namespace --wait --timeout=10m
-MLOPS-Reference-Architecture/
-├── charts/
-│   ├── fastapi-edge/
-│   ├── k6-loadtest/
-│   ├── monitoring/
-│   ├── redis-edge/
-│   ├── redis-cloud/
-│   └── seldon-operator/
-├── environments/
-│   ├── edge/
-│   └── cloud/
-├── Chart.yaml
-├── values.yaml
-└── README.md
-
-
-🔍 Validación y monitorización
-
-Grafana: paneles de latencia (P50/P95/P99), throughput, ratio de error, DORA.
-
-Prometheus: http_request_duration_seconds_bucket, http_requests_total; con Seldon: inference_latency_seconds_bucket.
-
-Pruebas de carga (k6): RPS, tasa de éxito, latencia media.
-
-Edge: temperatura (exporter RPi), CPU/RAM.
-
-📊 Escenarios experimentales
-Topología	Serving	Reentrenos	Feature Store	Notas
-Edge-Only	RPi 4 (arm64)	Manual	Redis Edge	Mínima latencia
-Híbrido	RPi 4 + Cloud	Nodo cloud	Redis Edge + Cloud	Equilibrado
-Cloud-Only	Nodo x86	Cloud	Redis Cloud	Cómputo centralizado
-🔬 Contexto científico
-
-Este entorno acompaña al artículo:
-
-“Machine Learning Operations in Industrial Engineering: Enabling Reliable Decision-Making in Industry 4.0 and 5.0” (Mateo-Casali et al., 2025)
-
-Implementa el marco MLOps-IE-RA para evaluar arquitecturas Edge–Cloud en contextos industriales.
+```
 
