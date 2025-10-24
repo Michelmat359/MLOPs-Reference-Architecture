@@ -1,0 +1,6 @@
+dependencies:
+- name: seldon-core-operator
+  repository: https://storage.googleapis.com/seldon-charts
+  version: 1.16.0
+digest: sha256:d815a0d8edfb1c65156f2b4e40a749ff2a1196803983e413ab8e61a20283e4ed
+generated: "2025-10-24T13:36:13.055304+02:00"
