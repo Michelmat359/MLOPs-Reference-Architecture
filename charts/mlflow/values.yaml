@@ -1,0 +1,9 @@
+image: ghcr.io/mlflow/mlflow:2.14.0
+nodeSelector: {}
+s3:
+  endpoint: http://minio.mlops-edge.svc.cluster.local:9000
+  bucket: models
+  accessKey: mlopsminio
+  secretKey: mlopsminio123
+storage:
+  size: 5Gi

@@ -1,0 +1,5 @@
+apiVersion: v2
+name: trainer-job
+description: One-off training job that logs to MLflow and stores model in MinIO (S3)
+type: application
+version: 0.1.0

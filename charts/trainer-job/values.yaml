@@ -1,0 +1,8 @@
+image: python:3.11-slim
+runOn: amd64
+mlflowTrackingUrl: http://mlflow.mlops-edge.svc.cluster.local:5000
+s3Endpoint: http://minio.mlops-edge.svc.cluster.local:9000
+s3Bucket: models
+s3AccessKey: mlopsminio
+s3SecretKey: mlopsminio123
+experimentName: rul-demo

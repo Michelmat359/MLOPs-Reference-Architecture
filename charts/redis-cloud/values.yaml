@@ -2,8 +2,6 @@ architecture: standalone
 auth:
   enabled: false
 master:
-  nodeSelector:
-    kubernetes.io/arch: amd64
   persistence:
     enabled: true
     storageClass: local-path

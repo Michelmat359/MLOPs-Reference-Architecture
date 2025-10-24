@@ -1,5 +1,5 @@
 image: grafana/k6:latest
-targetUrl: "http://rul-fastapi.mlops-edge.svc.cluster.local"
+targetUrl: http://rul-fastapi.mlops-edge.svc.cluster.local
 stages:
   - { duration: "2m",  target: 10 }
   - { duration: "10m", target: 30 }

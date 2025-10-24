@@ -2,9 +2,6 @@ architecture: standalone
 auth:
   enabled: false
 master:
-  nodeSelector:
-    kubernetes.io/hostname: kb-edge01
-    kubernetes.io/arch: arm64
   persistence:
     enabled: true
     storageClass: local-path

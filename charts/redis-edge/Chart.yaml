@@ -1,9 +1,6 @@
 apiVersion: v2
 name: redis-edge
-description: Bitnami Redis pinned to the edge node (arm64)
+description: Redis (edge) for caching/queueing
 type: application
 version: 0.1.0
-dependencies:
-  - name: redis
-    version: "19.x.x"
-    repository: "https://charts.bitnami.com/bitnami"
+dependencies: []

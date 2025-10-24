@@ -1,8 +1,8 @@
 apiVersion: v2
 name: mlops-reference-architecture
-description: Umbrella chart (monitoring, redis-edge, redis-cloud, fastapi-edge, k6-loadtest, seldon-operator)
+description: Umbrella chart (monitoring, redis-edge, redis-cloud, fastapi-edge, k6-loadtest, optional seldon-operator, mlflow, minio, trainer-job)
 type: application
-version: 0.1.0
+version: 0.1.1
 dependencies:
   - name: monitoring
     version: "0.1.0"
@@ -24,3 +24,15 @@ dependencies:
     version: "0.1.0"
     repository: "file://charts/k6-loadtest"
     condition: k6.enabled
+  - name: minio
+    version: "0.1.0"
+    repository: "file://charts/minio"
+    condition: minio.enabled
+  - name: mlflow
+    version: "0.1.0"
+    repository: "file://charts/mlflow"
+    condition: mlflow.enabled
+  - name: trainer-job
+    version: "0.1.0"
+    repository: "file://charts/trainer-job"
+    condition: trainerJob.enabled

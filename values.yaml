@@ -1,8 +1,8 @@
 seldonOperator:
-  enabled: false        # true si quieres instalarlo
+  enabled: false
 
 k6:
-  enabled: false        # true cuando quieras lanzar el Job
+  enabled: true
 
 monitoring:
   grafana:
@@ -11,12 +11,16 @@ monitoring:
     ingress:
       enabled: true
       ingressClassName: traefik
-      hosts: [grafana.local]
+      hosts:
+        - grafana.local
+    nodeSelector:
+      kubernetes.io/arch: amd64
   prometheus:
     prometheusSpec:
       retention: 2d
       scrapeInterval: 15s
-      nodeSelector: { kubernetes.io/arch: amd64 }
+      nodeSelector:
+        kubernetes.io/arch: amd64
   alertmanager:
     enabled: false
 
@@ -24,28 +28,79 @@ fastapi-edge:
   image:
     repository: registry.gitlab.com/<<TU_GRUPO>>/rul-fastapi
     tag: 1.0-arm64
+    pullPolicy: IfNotPresent
+  service:
+    name: rul-fastapi
+    port: 80
+    targetPort: 8080
+  nodeSelector:
+    kubernetes.io/hostname: kb-edge01
+    kubernetes.io/arch: arm64
+  resources:
+    requests:
+      cpu: 500m
+      memory: 512Mi
+    limits:
+      cpu: 1500m
+      memory: 1Gi
+  redis:
+    url: redis://redis-edge-master.mlops-edge.svc.cluster.local:6379
   ingress:
+    enabled: true
+    className: traefik
     host: rul-edge.local
+    path: /
 
 redis-edge:
-  redis:
-    auth: { enabled: false }
+  architecture: standalone
+  auth:
+    enabled: false
   master:
-    nodeSelector:
-      kubernetes.io/hostname: kb-edge01
-      kubernetes.io/arch: arm64
     persistence:
       enabled: true
       storageClass: local-path
       size: 1Gi
 
 redis-cloud:
-  redis:
-    auth: { enabled: false }
+  architecture: standalone
+  auth:
+    enabled: false
   master:
-    nodeSelector:
-      kubernetes.io/arch: amd64
     persistence:
       enabled: true
       storageClass: local-path
       size: 2Gi
+
+minio:
+  enabled: true
+  accessKey: mlopsminio
+  secretKey: mlopsminio123
+  bucket: models
+  storage:
+    size: 10Gi
+  nodeSelector:
+    kubernetes.io/arch: amd64
+
+mlflow:
+  enabled: true
+  image: ghcr.io/mlflow/mlflow:2.14.0
+  nodeSelector:
+    kubernetes.io/arch: amd64
+  s3:
+    endpoint: http://minio.mlops-edge.svc.cluster.local:9000
+    bucket: models
+    accessKey: mlopsminio
+    secretKey: mlopsminio123
+  storage:
+    size: 5Gi
+
+trainerJob:
+  enabled: true
+  image: python:3.11-slim
+  runOn: amd64
+  mlflowTrackingUrl: http://mlflow.mlops-edge.svc.cluster.local:5000
+  s3Endpoint: http://minio.mlops-edge.svc.cluster.local:9000
+  s3Bucket: models
+  s3AccessKey: mlopsminio
+  s3SecretKey: mlopsminio123
+  experimentName: rul-demo

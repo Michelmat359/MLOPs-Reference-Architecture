@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata: { name: trainer-job }
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      nodeSelector:
+        kubernetes.io/arch: {{ .Values.runOn }}
+      containers:
+        - name: trainer
+          image: {{ .Values.image }}
+          command: ["bash","-lc"]
+          args:
+            - |
+              pip install -q scikit-learn==1.5.2 mlflow==2.14.0 joblib && \
+              python /scripts/train.py
+          env:
+            - { name: MLFLOW_TRACKING_URI, value: {{ .Values.mlflowTrackingUrl | quote }} }
+            - { name: EXPERIMENT, value: {{ .Values.experimentName | quote }} }
+            - { name: MLFLOW_S3_ENDPOINT_URL, value: {{ .Values.s3Endpoint | quote }} }
+            - { name: AWS_ACCESS_KEY_ID, value: {{ .Values.s3AccessKey | quote }} }
+            - { name: AWS_SECRET_ACCESS_KEY, value: {{ .Values.s3SecretKey | quote }} }
+          volumeMounts:
+            - { name: scripts, mountPath: /scripts }
+      volumes:
+        - name: scripts
+          configMap: { name: trainer-script }

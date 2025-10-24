@@ -1,0 +1,6 @@
+accessKey: mlopsminio
+secretKey: mlopsminio123
+bucket: models
+storage:
+  size: 10Gi
+nodeSelector: {}

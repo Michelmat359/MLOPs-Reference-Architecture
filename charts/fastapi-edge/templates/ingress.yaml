@@ -3,8 +3,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Values.service.name }}
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+  annotations: {}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   rules:
@@ -16,5 +15,6 @@ spec:
             backend:
               service:
                 name: {{ .Values.service.name }}
-                port: { number: {{ .Values.service.port }} }
+                port:
+                  number: {{ .Values.service.port }}
 {{- end }}

@@ -1,6 +1,6 @@
 image:
   repository: registry.gitlab.com/<<TU_GRUPO>>/rul-fastapi
-  tag: "1.0-arm64"
+  tag: 1.0-arm64
   pullPolicy: IfNotPresent
 
 service:
@@ -13,8 +13,12 @@ nodeSelector:
   kubernetes.io/arch: arm64
 
 resources:
-  requests: { cpu: "500m", memory: "512Mi" }
-  limits:   { cpu: "1500m", memory: "1Gi" }
+  requests:
+    cpu: 500m
+    memory: 512Mi
+  limits:
+    cpu: 1500m
+    memory: 1Gi
 
 redis:
   url: redis://redis-edge-master.mlops-edge.svc.cluster.local:6379

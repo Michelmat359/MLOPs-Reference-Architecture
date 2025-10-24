@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ .Values.service.name }}-slo
+  labels: { release: kube-prometheus-stack }
+spec:
+  groups:
+  - name: slo.rules
+    rules:
+    - alert: FastAPIHighLatencyP95
+      expr: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{app="{{ .Values.service.name }}"}[5m])) by (le)) > 0.12
+      for: 5m
+      labels: { severity: warning }
+      annotations:
+        description: "p95 latency > 120ms for 5m (edge SLO)"
+    - alert: FastAPIErrorRateHigh
+      expr: (sum(rate(http_requests_total{app="{{ .Values.service.name }}",status!~"2.."}[5m])) / sum(rate(http_requests_total{app="{{ .Values.service.name }}"}[5m]))) > 0.001
+      for: 5m
+      labels: { severity: critical }
+      annotations:
+        description: "Error rate > 0.1% for 5m"
