@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.service.name }}
+  labels:
+    app: {{ .Values.service.name }}
+    scenario: edge
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: {{ .Values.service.name }} }
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.service.name }}
+        scenario: edge
+    spec:
+      nodeSelector: {{- toYaml .Values.nodeSelector | nindent 8 }}
+      containers:
+        - name: app
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports: [{ name: http, containerPort: {{ .Values.service.targetPort }} }]
+          env:
+            - name: REDIS_URL
+              value: "{{ .Values.redis.url }}"
+          readinessProbe: { httpGet: { path: /health, port: http }, initialDelaySeconds: 5, periodSeconds: 5 }
+          livenessProbe:  { httpGet: { path: /health, port: http }, initialDelaySeconds: 10, periodSeconds: 10 }
+          resources: {{- toYaml .Values.resources | nindent 12 }}

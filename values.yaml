@@ -1,0 +1,51 @@
+seldonOperator:
+  enabled: false        # true si quieres instalarlo
+
+k6:
+  enabled: false        # true cuando quieras lanzar el Job
+
+monitoring:
+  grafana:
+    enabled: true
+    adminPassword: change-me
+    ingress:
+      enabled: true
+      ingressClassName: traefik
+      hosts: [grafana.local]
+  prometheus:
+    prometheusSpec:
+      retention: 2d
+      scrapeInterval: 15s
+      nodeSelector: { kubernetes.io/arch: amd64 }
+  alertmanager:
+    enabled: false
+
+fastapi-edge:
+  image:
+    repository: registry.gitlab.com/<<TU_GRUPO>>/rul-fastapi
+    tag: 1.0-arm64
+  ingress:
+    host: rul-edge.local
+
+redis-edge:
+  redis:
+    auth: { enabled: false }
+  master:
+    nodeSelector:
+      kubernetes.io/hostname: kb-edge01
+      kubernetes.io/arch: arm64
+    persistence:
+      enabled: true
+      storageClass: local-path
+      size: 1Gi
+
+redis-cloud:
+  redis:
+    auth: { enabled: false }
+  master:
+    nodeSelector:
+      kubernetes.io/arch: amd64
+    persistence:
+      enabled: true
+      storageClass: local-path
+      size: 2Gi

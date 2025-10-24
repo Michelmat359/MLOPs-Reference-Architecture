@@ -1,0 +1,17 @@
+grafana:
+  enabled: true
+  adminPassword: "change-me"
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    hosts: [grafana.local]
+  nodeSelector: { kubernetes.io/arch: amd64 }
+
+prometheus:
+  prometheusSpec:
+    retention: 2d
+    scrapeInterval: 15s
+    nodeSelector: { kubernetes.io/arch: amd64 }
+
+alertmanager:
+  enabled: false

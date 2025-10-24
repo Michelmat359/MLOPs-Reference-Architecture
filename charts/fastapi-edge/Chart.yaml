@@ -1,0 +1,6 @@
+apiVersion: v2
+name: fastapi-edge
+description: Minimal FastAPI serving on Edge (RPi4, arm64) with metrics & ingress
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

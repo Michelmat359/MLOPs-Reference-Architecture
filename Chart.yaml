@@ -1,0 +1,26 @@
+apiVersion: v2
+name: mlops-reference-architecture
+description: Umbrella chart (monitoring, redis-edge, redis-cloud, fastapi-edge, k6-loadtest, seldon-operator)
+type: application
+version: 0.1.0
+dependencies:
+  - name: monitoring
+    version: "0.1.0"
+    repository: "file://charts/monitoring"
+  - name: redis-edge
+    version: "0.1.0"
+    repository: "file://charts/redis-edge"
+  - name: redis-cloud
+    version: "0.1.0"
+    repository: "file://charts/redis-cloud"
+  - name: seldon-operator
+    version: "0.1.0"
+    repository: "file://charts/seldon-operator"
+    condition: seldonOperator.enabled
+  - name: fastapi-edge
+    version: "0.1.0"
+    repository: "file://charts/fastapi-edge"
+  - name: k6-loadtest
+    version: "0.1.0"
+    repository: "file://charts/k6-loadtest"
+    condition: k6.enabled

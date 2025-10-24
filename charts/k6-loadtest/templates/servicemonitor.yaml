@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: sm-rul-fastapi
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels: { app: rul-fastapi }
+  namespaceSelector:
+    matchNames: ["mlops-edge"]
+  endpoints:
+  - port: http
+    path: /metrics
+    interval: 15s
