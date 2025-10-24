@@ -1,0 +1,30 @@
+
+controller:
+  metricsConfig:
+    enabled: true
+    path: /metrics
+server:
+  ingress:
+    enabled: true
+    ingressClassName: "traefik"
+    hosts:
+      - argo.local
+    paths:
+      - /
+    tls: []
+workflow:
+  serviceAccount:
+    create: true
+    name: argo-workflow
+# Repositorio de artefactos S3 (MinIO)
+artifactRepository:
+  s3:
+    bucket: mlflow
+    endpoint: "minio.mlops-system.svc.cluster.local:9000"
+    insecure: true
+    accessKeySecret:
+      name: argo-artifact-repo-creds
+      key: accesskey
+    secretKeySecret:
+      name: argo-artifact-repo-creds
+      key: secretkey

@@ -1,0 +1,11 @@
+
+auth:
+  username: mlflow
+  password: mlflow123
+  database: mlflow
+primary:
+  persistence:
+    enabled: true
+    size: 8Gi
+image:
+  tag: "16"

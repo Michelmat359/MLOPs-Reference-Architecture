@@ -1,6 +1,0 @@
-apiVersion: v2
-name: fastapi-edge
-description: Edge FastAPI service with Prometheus metrics
-type: application
-version: 0.1.0
-dependencies: []

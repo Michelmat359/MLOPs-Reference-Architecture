@@ -1,8 +1,0 @@
-architecture: standalone
-auth:
-  enabled: false
-master:
-  persistence:
-    enabled: true
-    storageClass: local-path
-    size: 2Gi

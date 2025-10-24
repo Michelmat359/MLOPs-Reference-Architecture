@@ -1,5 +1,7 @@
+
 apiVersion: v2
 name: mlflow
-description: Minimal MLflow tracking server configured with MinIO (S3)
+description: Lightweight MLflow Tracking & Registry on Kubernetes
 type: application
 version: 0.1.0
+appVersion: "2.15.1"

@@ -1,0 +1,31 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: demo-train-register-
+  namespace: mlops-dev
+spec:
+  entrypoint: train
+  serviceAccountName: argo-workflow
+  templates:
+    - name: train
+      container:
+        image: ghcr.io/your-org/mlops-training:0.1.0
+        command: ["python", "/app/train.py"]
+        env:
+          - name: MLFLOW_TRACKING_URI
+            value: "http://mlflow-mlflow.mlops-system.svc.cluster.local:5000"
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: argo-artifact-repo-creds
+                key: accesskey
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: argo-artifact-repo-creds
+                key: secretkey
+          - name: MLFLOW_S3_ENDPOINT_URL
+            value: "http://minio.mlops-system.svc.cluster.local:9000"
+          - name: AWS_DEFAULT_REGION
+            value: "us-east-1"

@@ -1,8 +1,0 @@
-controllerManager:
-  manager:
-    nodeSelector:
-      kubernetes.io/arch: amd64
-webhook:
-  enabled: true
-  certManager:
-    enabled: false

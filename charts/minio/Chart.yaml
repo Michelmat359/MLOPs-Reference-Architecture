@@ -1,5 +1,0 @@
-apiVersion: v2
-name: minio
-description: Minimal standalone MinIO for model artifacts (S3 API)
-type: application
-version: 0.1.0

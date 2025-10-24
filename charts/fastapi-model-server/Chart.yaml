@@ -1,0 +1,7 @@
+
+apiVersion: v2
+name: fastapi-model-server
+description: Simple FastAPI server that pulls a model from MLflow/S3
+type: application
+version: 0.1.0
+appVersion: "0.1.0"

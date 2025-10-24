@@ -1,6 +1,0 @@
-apiVersion: v2
-name: k6-loadtest
-description: k6 load test job targeting the FastAPI service
-type: application
-version: 0.1.0
-dependencies: []
