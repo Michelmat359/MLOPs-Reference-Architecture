@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: {{ .Values.service.name }}-slo
-  labels: { release: kube-prometheus-stack }
+  labels: { release: {{ $.Release.Name }} }
 spec:
   groups:
   - name: slo.rules

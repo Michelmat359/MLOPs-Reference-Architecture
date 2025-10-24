@@ -9,8 +9,6 @@ spec:
         - name: mc
           image: quay.io/minio/mc:RELEASE.2024-09-30T16-20-04Z
           env:
-            - name: MC_HOST_myminio
-              value: http://$(MINIO_ACCESS):$(MINIO_SECRET)@minio:9000
             - name: MINIO_ACCESS
               valueFrom: { secretKeyRef: { name: minio-creds, key: accesskey } }
             - name: MINIO_SECRET
@@ -19,5 +17,5 @@ spec:
             - /bin/sh
             - -c
             - |
-              mc alias set myminio http://minio:9000 $(MINIO_ACCESS) $(MINIO_SECRET)
+              mc alias set myminio http://minio:9000 $MINIO_ACCESS $MINIO_SECRET
               mc mb --ignore-existing myminio/{{ .Values.bucket }}

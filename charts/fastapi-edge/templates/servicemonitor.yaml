@@ -3,7 +3,7 @@ kind: ServiceMonitor
 metadata:
   name: {{ .Values.service.name }}
   labels:
-    release: kube-prometheus-stack
+    release: {{ $.Release.Name }}
 spec:
   selector:
     matchLabels:
