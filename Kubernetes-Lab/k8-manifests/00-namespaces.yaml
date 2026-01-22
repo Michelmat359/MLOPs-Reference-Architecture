@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: it-core
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ot-edge
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: governance
