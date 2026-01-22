@@ -1,7 +1,0 @@
-
-apiVersion: v2
-name: mlflow
-description: Lightweight MLflow Tracking & Registry on Kubernetes
-type: application
-version: 0.1.0
-appVersion: "2.15.1"
