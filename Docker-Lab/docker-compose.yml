@@ -137,6 +137,56 @@ services:
     networks:
       - mlops-net
 
+
+# ----------------------------------------------------------------
+  # 5. ORQUESTACIÓN (Entrenamiento Continuo - CT)
+  # ----------------------------------------------------------------
+  airflow-webserver:
+    image: apache/airflow:2.7.1
+    container_name: ind-airflow-webserver
+    command: webserver
+    ports:
+      - "8080:8080"
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres-airflow:5432/airflow
+      - AIRFLOW__CORE__FERNET_KEY=FB0o_zr42F3eDez18yN6x9F822wOf4XN7a284z33x-0=
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+    networks:
+      - mlops-net
+    depends_on:
+      - postgres-airflow
+
+  airflow-scheduler:
+    image: apache/airflow:2.7.1
+    container_name: ind-airflow-scheduler
+    command: scheduler
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres-airflow:5432/airflow
+      - AIRFLOW__CORE__FERNET_KEY=FB0o_zr42F3eDez18yN6x9F822wOf4XN7a284z33x-0=
+    volumes:
+      - ./dags:/opt/airflow/dags
+    networks:
+      - mlops-net
+    depends_on:
+      - postgres-airflow
+
+  # Postgres dedicado para Airflow (para no mezclar con MLflow)
+  postgres-airflow:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    networks:
+      - mlops-net
+
+
 networks:
   mlops-net:
     driver: bridge
