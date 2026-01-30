@@ -1,12 +1,17 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: it-core
+  name: cloud-tier
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ot-edge
+  name: fog-tier
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: edge-tier
 ---
 apiVersion: v1
 kind: Namespace

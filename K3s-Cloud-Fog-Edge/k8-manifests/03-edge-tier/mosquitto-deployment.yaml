@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mosquitto
-  namespace: ot-edge
+  namespace: edge-tier
 spec:
   replicas: 1
   selector:
@@ -34,7 +34,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mosquitto-config
-  namespace: ot-edge
+  namespace: edge-tier
 data:
   mosquitto.conf: |
     listener 1883
@@ -44,7 +44,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mosquitto-svc
-  namespace: ot-edge
+  namespace: edge-tier
 spec:
   selector:
     app: mosquitto
